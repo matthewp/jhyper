@@ -1,0 +1,20 @@
+<script>
+  const count = $('.counter .count');
+
+  $('.counter .increment')
+  .hyper()
+  .on('click')
+  .run(() => {
+    return Number(count.text()) + 1;
+  })
+  .then()
+  .put()
+  .into(count)
+</script>
+<div class="counter">
+  Count: <span class="count">0</span>
+
+  <div>
+    <button type="button" class="increment">Increment</button>
+  </div>
+</div>

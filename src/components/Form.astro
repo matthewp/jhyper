@@ -1,0 +1,35 @@
+<style>
+  form {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-gap: .6rem;
+  }
+
+  input.visited {
+    border: 1px dashed black;
+  }
+</style>
+<script>
+  const textInputs = $('#my-form input:not([type=submit])')
+
+  // First time input, mark them as visited
+  textInputs.hyper().on('blur').addClass('visited');
+
+  const not = fn => (...args) => !fn(...args);
+  const formFilled = () => $('#my-form #user').val() && $('#my-form #password').val();
+
+  // Toggle the submit button disabled based on whether the form is filled
+  textInputs
+  .hyper()
+  .on('change')
+  .toggleAttr('disabled', not(formFilled))
+  .from('#my-form input[type=submit]')
+</script>
+<form id="my-form" action="/do-stuff">
+  <label for="user">Username</label>
+  <input type="text" name="user" id="user" placeholder="username">
+  <label for="password">Password</label>
+  <input type="text" name="password" id="password" placeholder="password">
+  <div></div>
+  <input type="submit" value="Submit" disabled>
+</form>

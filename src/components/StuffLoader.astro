@@ -1,0 +1,27 @@
+<div id="root">
+  Hello, load stuff
+  <button type="button">Load stuff</button>
+  <div id="target"></div>
+</div>
+<style>
+  .loading {
+    color: blue;
+  }
+</style>
+<script>
+  $('#root button')
+    .hyper()
+    .on('click')
+    .addClass('loading')
+    .to('#root')
+    .then()
+    .empty('#target')
+    .then()
+    .post('/fragments/stuff')
+    .then()
+    .put()
+    .into('#target')
+    .then()
+    .removeClass('loading')
+    .from('#root');
+</script>

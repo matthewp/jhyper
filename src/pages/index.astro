@@ -1,0 +1,31 @@
+---
+import Counter from '../components/Counter.astro';
+import Form from '../components/Form.astro';
+import StuffLoader from '../components/StuffLoader.astro';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+		<script is:inline src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+		<script is:inline src="/js/hx.js"></script>
+	</head>
+	<body>
+		<h1>My App</h1>
+
+		<h2>Form</h2>
+		<Form />
+
+		<h2>Loader</h2>
+		<StuffLoader />
+
+		<hr />
+
+		<h2>Counter</h2>
+		<Counter />
+	</body>
+</html>
