@@ -1,0 +1,12 @@
+:root {
+    --color-gold: #FFD700;
+
+    --color-black: Black;
+    --color-yellow: var(--color-gold);
+}
+
+body {
+    font-family: sans-serif;
+    background-color: var(--color-yellow);
+    color: var(--color-black);
+}

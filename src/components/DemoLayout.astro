@@ -1,5 +1,6 @@
 ---
 import '../styles/all.css';
+const { title } = Astro.props;
 ---
 
 <html lang="en">
@@ -8,33 +9,16 @@ import '../styles/all.css';
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<meta name="viewport" content="width=device-width" />
 	<meta name="generator" content={Astro.generator} />
-	<title>jHyper</title>
+	<title>{ title }</title>
 	<script is:inline src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 	<script src="../lib/jhyper"></script>
 	<style>
-		header h1 {
-			text-align: center;
-		}
-
-		a, a:visited {
-			color: inherit;
+		body {
+			font-family: sans-serif;
 		}
 	</style>
 </head>
 	<body>
-		<header>
-			<h1>jHyper</h1>
-		</header>
-
-		<main>
-			<p>jHyper is an experimental jQuery plugin that provides modern conveniences on top of jQuery.</p>
-
-			<h2>Demos</h2>
-			<ul>
-				<li><a href="/counter">Counter</a></li>
-				<li><a href="/form">Form</a></li>
-				<li><a href="/loader">Loader</a></li>
-			</ul>
-		</main>
+		<slot />
 	</body>
 </html>

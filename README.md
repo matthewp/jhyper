@@ -1,3 +1,3 @@
 # jHyper
 
-An experimental jQuery plugin.
+[Homepage](https://stackblitz.com/~/github.com/matthewp/jhyper)

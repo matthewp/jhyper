@@ -5,8 +5,8 @@
     grid-gap: .6rem;
   }
 
-  input.visited {
-    border: 1px dashed black;
+  input.visited:invalid {
+    border: 2px dashed red;
   }
 </style>
 <script>
@@ -27,9 +27,9 @@
 </script>
 <form id="my-form" action="/do-stuff">
   <label for="user">Username</label>
-  <input type="text" name="user" id="user" placeholder="username">
+  <input type="text" name="user" id="user" placeholder="username" required>
   <label for="password">Password</label>
-  <input type="text" name="password" id="password" placeholder="password">
+  <input type="text" name="password" id="password" placeholder="password" required>
   <div></div>
   <input type="submit" value="Submit" disabled>
 </form>
