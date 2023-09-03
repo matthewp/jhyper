@@ -9,12 +9,61 @@
   })
   .then()
   .put()
-  .into(count)
+  .into(count);
+
+  $('.counter .decrement')
+  .hyper()
+  .on('click')
+  //.toggleAttr('disabled', () => Number(count.text()) === 0)
+  .when(() => Number(count.text()) > 0)
+  .run(() => {
+    return Number(count.text()) - 1;
+  })
+  .then()
+  .put()
+  .into(count);
 </script>
 <div class="counter">
-  Count: <span class="count">0</span>
+  <div class="result">
+    Count: <span class="count">0</span>
+  </div>
 
-  <div>
+  <div class="controls">
     <button type="button" class="increment">Increment</button>
+    <button type="button" class="decrement">Decrement</button>
   </div>
 </div>
+
+<style>
+  .counter {
+    display: grid;
+    justify-content: center;
+    grid-row-gap: 1.2rem;
+  }
+  .result {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .count {
+    font-weight: 600;
+  }
+
+  .controls {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 0.8rem;
+  }
+
+  button {
+    background: var(--color-black);
+    border: 3px solid white;
+    padding: 0.5rem;
+    font-size: 14px;
+    color: white;
+  }
+
+  button:active {
+    border-color: red;
+  }
+</style>
