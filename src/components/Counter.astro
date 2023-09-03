@@ -1,12 +1,17 @@
 <script>
-  const count = $('.counter .count');
+  const countEl = $('.counter .count');
+  const count = () => Number(countEl.text());
+
+  $('.counter .decrement')
+  .hyper()
+  .on('click')
+  .when(() => count() > 0)
+  .trigger('number', count)
 
   $('.counter .increment')
   .hyper()
   .on('click')
-  .run(() => {
-    return Number(count.text()) + 1;
-  })
+  .run(() => count() + 1)
   .then()
   .put()
   .into(count);
@@ -14,11 +19,8 @@
   $('.counter .decrement')
   .hyper()
   .on('click')
-  //.toggleAttr('disabled', () => Number(count.text()) === 0)
-  .when(() => Number(count.text()) > 0)
-  .run(() => {
-    return Number(count.text()) - 1;
-  })
+  .when(() => count() > 0)
+  .run(() =>  count() - 1)
   .then()
   .put()
   .into(count);
