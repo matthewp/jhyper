@@ -6,13 +6,14 @@ class Action {
     h: Hyper;
     target: string | JQuery | null;
     into: Action['to'];
+    onto: Action['to'];
     from: Action['to'];
     and: Action['then'];
     constructor(h: Hyper, fn: ActionFn) {
       this.h = h;
       this.fn = fn;
       this.target = null;
-      this.into = this.from = this.to;
+      this.into = this.from = this.onto = this.to;
       this.and = this.then;
     }
   
