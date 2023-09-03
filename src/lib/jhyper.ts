@@ -59,7 +59,7 @@ class Action {
     #run = async (ev: JQuery.Event, ...args: any[]) => {
       let result: any = null;
       loop: for (const action of this.actions) {
-        result = action.fn(ev, result, ...args);
+        result = action.fn(ev, result, ...args) ?? result;
         if (result === HALT) {
           break loop;
         } else if (result != null && typeof result.then === 'function') {

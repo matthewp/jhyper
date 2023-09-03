@@ -25,13 +25,10 @@
   .run((ev, _, count) => count)
   .then()
   .put()
-  .into(countEl);
-
-  $('.counter')
-  .hyper()
-  .on('count')
+  .into(countEl)
+  .then()
   .toggleAttr('disabled', () => count() === 0)
-  .into('.counter .decrement')
+  .to('.counter .decrement');
 </script>
 <div class="counter">
   <div class="result">
