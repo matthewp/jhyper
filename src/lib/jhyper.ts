@@ -82,7 +82,6 @@ class Action {
   
     addClass(cn: string) {
       const $ = this.$;
-      let ff: JQuery
       return this.#ext(function (ev) {
         return $(this.getTarget(ev)).addClass(cn);
       });
