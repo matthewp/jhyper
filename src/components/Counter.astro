@@ -2,28 +2,36 @@
   const countEl = $('.counter .count');
   const count = () => Number(countEl.text());
 
-  $('.counter .decrement')
-  .hyper()
-  .on('click')
-  .when(() => count() > 0)
-  .trigger('number', count)
-
   $('.counter .increment')
   .hyper()
   .on('click')
   .run(() => count() + 1)
   .then()
-  .put()
-  .into(count);
+  .trigger('count')
+  .closest('.counter');
 
   $('.counter .decrement')
   .hyper()
   .on('click')
   .when(() => count() > 0)
-  .run(() =>  count() - 1)
+  .run(() => count() - 1)
+  .then()
+  .trigger('count')
+  .closest('.counter');
+
+  $('.counter')
+  .hyper()
+  .on('count')
+  .run((ev, _, count) => count)
   .then()
   .put()
-  .into(count);
+  .into(countEl);
+
+  $('.counter')
+  .hyper()
+  .on('count')
+  .toggleAttr('disabled', () => count() === 0)
+  .into('.counter .decrement')
 </script>
 <div class="counter">
   <div class="result">
@@ -32,7 +40,7 @@
 
   <div class="controls">
     <button type="button" class="increment">Increment</button>
-    <button type="button" class="decrement">Decrement</button>
+    <button type="button" class="decrement" disabled>Decrement</button>
   </div>
 </div>
 
@@ -65,7 +73,11 @@
     color: white;
   }
 
-  button:active {
+  button:not([disabled]):active {
     border-color: red;
+  }
+
+  button[disabled] {
+    opacity: 0.6;
   }
 </style>

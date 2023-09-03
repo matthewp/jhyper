@@ -1,5 +1,5 @@
 
-type ActionFn = (this: Action, ev: JQuery.Event, result: any) => any;
+type ActionFn = (this: Action, ev: JQuery.Event, result: any, ...args: any[]) => any;
 
 class Action {
     fn: ActionFn;
@@ -18,6 +18,10 @@ class Action {
   
     getTarget(ev: JQuery.Event) {
       return this.target || (ev as any).target;
+    }
+
+    closest(sel: string) {
+      this.target = this.h.$$.closest(sel);
     }
   
     to(sel: string | JQuery) {
@@ -52,10 +56,10 @@ class Action {
       return action;
     }
   
-    #run = async (ev: JQuery.Event) => {
+    #run = async (ev: JQuery.Event, ...args: any[]) => {
       let result: any = null;
       loop: for (const action of this.actions) {
-        result = action.fn(ev, result);
+        result = action.fn(ev, result, ...args);
         if (result === HALT) {
           break loop;
         } else if (result != null && typeof result.then === 'function') {
@@ -120,6 +124,13 @@ class Action {
           $$.removeAttr(attrName);
         }
       });
+    }
+
+    trigger(evName: string) {
+      return this.#ext(function(ev, result) {
+        let $$ = $(this.getTarget(ev));
+        $$.trigger(evName, result);
+      })
     }
   }
 
