@@ -3,9 +3,13 @@ class Action {
   constructor(h, fn) {
     this.h = h;
     this.fn = fn;
-    this.target = h.$$;
+    this.target = null;
     this.into = this.from = this.to;
     this.and = this.then;
+  }
+
+  getTarget(ev) {
+    return this.target || ev.target;
   }
 
   to(sel) {
@@ -39,10 +43,10 @@ class Hyper {
     return action;
   }
 
-  #run = async () => {
+  #run = async (ev) => {
     let result = null;
     loop: for (const action of this.actions) {
-      result = action.fn(result);
+      result = action.fn(result, ev);
       if (result === HALT) {
         break loop;
       } else if (result != null && typeof result.then === 'function') {
@@ -69,14 +73,14 @@ class Hyper {
 
   addClass(cn) {
     const $ = this.$;
-    return this.#ext(function () {
-      return $(this.target).addClass(cn);
+    return this.#ext(function (_, ev) {
+      return $(this.getTarget(ev)).addClass(cn);
     });
   }
 
   removeClass(cn) {
-    return this.#ext(function () {
-      return $(this.target).removeClass(cn);
+    return this.#ext(function (_, ev) {
+      return $(this.getTarget(ev)).removeClass(cn);
     });
   }
 
