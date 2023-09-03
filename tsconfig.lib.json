@@ -1,0 +1,12 @@
+{
+    "include": ["src/lib"],
+    "compilerOptions": {
+      "declaration": true,
+      "module": "ES2022",
+      "outDir": "./lib",
+      "declarationDir": "./lib",
+      "target": "ES2022",
+      "types": ["@types/jquery"]
+    }
+  }
+  
