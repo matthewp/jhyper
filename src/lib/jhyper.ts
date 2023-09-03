@@ -80,7 +80,7 @@ class Action {
       });
     }
   
-    addClass(cn) {
+    addClass(cn: string) {
       const $ = this.$;
       let ff: JQuery
       return this.#ext(function (ev) {
@@ -88,7 +88,7 @@ class Action {
       });
     }
   
-    removeClass(cn) {
+    removeClass(cn: string) {
       return this.#ext(function (ev) {
         return $(this.getTarget(ev)).removeClass(cn);
       });
@@ -99,14 +99,6 @@ class Action {
         const res = await fetch(url, init);
         return await res.text();
       });
-    }
-  
-    get(url: string) {
-      return this.fetch(url);
-    }
-  
-    post(url: string) {
-      return this.fetch(url, { method: 'POST' });
     }
   
     put() {
