@@ -3,6 +3,7 @@
 
     --color-black: Black;
     --color-yellow: var(--color-gold);
+    --color-contrast: #DB5461;
 }
 
 body {
