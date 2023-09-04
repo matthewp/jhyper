@@ -157,6 +157,6 @@ interface JQuery {
   hyper: HyperPluginFunction;
 }
 
-$.fn.hyper = function () {
+$.fn.hyper = function (this: JQuery) {
   return new Hyper(this, $);
 };
