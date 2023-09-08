@@ -1,20 +1,20 @@
 type ActionFn = (
-  this: Action,
+  this: HyperAction,
   ev: JQuery.Event,
   result: any,
   ...args: any[]
 ) => any;
 
-class Action {
+class HyperAction {
   fn: ActionFn;
-  h: Hyper;
+  l: HyperListener;
   target: string | JQuery | null;
-  into: Action['to'];
-  onto: Action['to'];
-  from: Action['to'];
-  and: Action['then'];
-  constructor(h: Hyper, fn: ActionFn) {
-    this.h = h;
+  into: HyperAction['to'];
+  onto: HyperAction['to'];
+  from: HyperAction['to'];
+  and: HyperAction['then'];
+  constructor(l: HyperListener, fn: ActionFn) {
+    this.l = l;
     this.fn = fn;
     this.target = null;
     this.into = this.from = this.onto = this.to;
@@ -26,7 +26,8 @@ class Action {
   }
 
   closest(sel: string) {
-    this.target = this.h.$$.closest(sel);
+    this.target = this.l.$$.closest(sel);
+    return this;
   }
 
   to(sel: string | JQuery) {
@@ -34,29 +35,36 @@ class Action {
     return this;
   }
 
+  /**
+   * Chain another action onto this event.
+   */
   then() {
-    return this.h;
+    return this.l;
   }
 
-  on(sel: string) {
-    return this.h.on(sel);
+  on(evName: string) {
+    return this.l.on(evName);
   }
 }
 
 const HALT = Symbol('halt');
 
-class Hyper {
+class HyperListener {
+  h: Hyper;
   $: JQueryStatic;
   $$: JQuery;
-  actions: Array<Action>;
-  constructor($$: JQuery, $: JQueryStatic) {
-    this.$$ = $$;
-    this.$ = $;
+  actions: Array<HyperAction>;
+  constructor(h: Hyper, evName: string) {
+    this.h = h;
+    this.$ = h.$;
+    this.$$ = h.$$;
     this.actions = [];
+
+    this.$$.on(evName, this.#run);
   }
 
   #ext(fn: ActionFn) {
-    let action = new Action(this, fn);
+    let action = new HyperAction(this, fn);
     this.actions.push(action);
     return action;
   }
@@ -73,9 +81,11 @@ class Hyper {
     }
   };
 
-  on(evName) {
-    this.$$.on(evName, this.#run);
-    return this;
+  /**
+   * Listen to the specified event and chain together actions.
+   */
+  on(evName: string) {
+    return this.h.on(evName);
   }
 
   run(fn: ActionFn) {
@@ -140,19 +150,35 @@ class Hyper {
   }
 }
 
+class Hyper {
+  $: JQueryStatic;
+  $$: JQuery;
+  constructor($$: JQuery, $: JQueryStatic) {
+    this.$$ = $$;
+    this.$ = $;
+  }
+
+  /**
+   * Listen to the specified event and chain together actions.
+   */
+  on(evName: string) {
+    return new HyperListener(this, evName);
+  }
+}
+
 interface HyperPluginFunction {
   /**
-   * Apply the example plugin to the elements selected in the jQuery result.
+   * A hyperized jQuery element. Chain together events and responses to events
+   * without callback functions or imperative code.
    *
-   * @param options Options to use for this application of the example plugin.
-   * @returns jQuery result.
+   * @returns Hyper object.
    */
   (): Hyper;
 }
 
 interface JQuery {
   /**
-   * Extension of the example plugin.
+   * Hyperize a jQuery element.
    */
   hyper: HyperPluginFunction;
 }
