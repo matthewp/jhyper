@@ -13,8 +13,9 @@
     "build-lib": "tsc -p ./tsconfig.lib.json"
   },
   "devDependencies": {
-    "astro": "^3.0.5",
     "@types/jquery": "^3.5.18",
+    "@types/qunit": "^2.19.6",
+    "astro": "^3.0.5",
     "typescript": "5.2.2"
   }
 }

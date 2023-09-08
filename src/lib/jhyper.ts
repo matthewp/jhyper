@@ -53,11 +53,13 @@ class HyperListener {
   h: Hyper;
   $: JQueryStatic;
   $$: JQuery;
+  evName: string;
   actions: Array<HyperAction>;
   constructor(h: Hyper, evName: string) {
     this.h = h;
     this.$ = h.$;
     this.$$ = h.$$;
+    this.evName = evName;
     this.actions = [];
 
     this.$$.on(evName, this.#run);
@@ -86,6 +88,11 @@ class HyperListener {
    */
   on(evName: string) {
     return this.h.on(evName);
+  }
+
+  off() {
+    this.$$.off(this.evName, this.#run);
+    return this;
   }
 
   run(fn: ActionFn) {
@@ -127,7 +134,7 @@ class HyperListener {
     });
   }
 
-  when(fn: () => boolean) {
+  when(fn: () => boolean | number) {
     return this.#ext(() => fn() || HALT).then();
   }
 
@@ -153,16 +160,26 @@ class HyperListener {
 class Hyper {
   $: JQueryStatic;
   $$: JQuery;
+  listeners: Array<HyperListener>;
   constructor($$: JQuery, $: JQueryStatic) {
     this.$$ = $$;
     this.$ = $;
+    this.listeners = [];
   }
 
   /**
    * Listen to the specified event and chain together actions.
    */
   on(evName: string) {
-    return new HyperListener(this, evName);
+    let l = new HyperListener(this, evName);
+    this.listeners.push(l);
+    return l;
+  }
+
+  off() {
+    this.listeners.forEach(l => l.off());
+    this.listeners.length = 0;
+    return this;
   }
 }
 
