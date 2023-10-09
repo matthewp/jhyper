@@ -119,6 +119,12 @@ class HyperListener {
     });
   }
 
+  prop(pn: string, value: any) {
+    return this.#ext(function(ev) {
+      return $(this.getTarget(ev)).prop(pn, value);
+    });
+  }
+
   fetch(param0: string | (() => string | URL), init?: any) {
     return this.#ext(async () => {
       const url = typeof param0 === 'function' ? param0() : param0;
